@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic URL Loader</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        iframe {
+            width: 80%;
+            height: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic URL Loader</h1>
+    <iframe id="contentFrame" src=""></iframe>
+    <script>
+        function getQueryParameter(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        const targetURL = getQueryParameter('url');
+        if (targetURL) {
+            document.getElementById('contentFrame').src = targetURL;
+        } else {
+            document.body.innerHTML = '<p>URL parameter is missing</p>';
+        }
+    </script>
+</body>
+</html>
