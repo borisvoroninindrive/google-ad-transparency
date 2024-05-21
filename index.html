@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic URL Loader</title>
+    <title>Dynamic URL Link</title>
     <style>
         body, html {
             height: 100%;
@@ -11,17 +11,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
         }
-        iframe {
-            width: 80%;
-            height: 80%;
+        a {
+            font-size: 20px;
+            text-decoration: none;
+            color: blue;
         }
     </style>
 </head>
 <body>
-    <h1>Dynamic URL Loader</h1>
-    <iframe id="contentFrame" src=""></iframe>
+    <a id="dynamicLink" href="#" target="_blank">Open Link</a>
     <script>
         function getQueryParameter(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -30,10 +30,12 @@
         
         const targetURL = getQueryParameter('url');
         if (targetURL) {
-            document.getElementById('contentFrame').src = targetURL;
+            document.getElementById('dynamicLink').href = targetURL;
+            document.getElementById('dynamicLink').textContent = targetURL;
         } else {
             document.body.innerHTML = '<p>URL parameter is missing</p>';
         }
     </script>
 </body>
 </html>
+
