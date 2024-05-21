@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic URL Redirect</title>
+    <title>Dynamic URL Loader</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        a {
+            font-size: 20px;
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
 </head>
 <body>
     <script>
@@ -14,7 +29,7 @@
         
         const targetURL = getQueryParameter('url');
         if (targetURL) {
-            window.location.href = targetURL;
+            window.open(targetURL, '_blank');
         } else {
             document.body.innerHTML = '<p>URL parameter is missing</p>';
         }
