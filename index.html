@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <a id="dynamicLink" href="#" target="_blank">Open Link</a>
+    <a id="dynamicLink" href="#" target="_blank">View creative on Google site</a>
     <script>
         function getQueryParameter(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -31,7 +31,8 @@
         const targetURL = getQueryParameter('url');
         if (targetURL) {
             document.getElementById('dynamicLink').href = targetURL;
-            document.getElementById('dynamicLink').textContent = targetURL;
+            document.getElementById('dynamicLink').textContent = "View creative on Google site";
+            window.open(targetURL, '_blank');
         } else {
             document.body.innerHTML = '<p>URL parameter is missing</p>';
         }
