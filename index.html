@@ -29,7 +29,7 @@
         }
         
         const targetURL = getQueryParameter('url');
-        const creativeID = getQueryParameter('id');
+        const creativeID = getQueryParameter('id') || 'Unknown ID';
         
         if (targetURL) {
             document.getElementById('dynamicLink').href = targetURL;
