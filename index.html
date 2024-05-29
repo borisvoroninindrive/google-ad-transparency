@@ -12,16 +12,23 @@
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
+            flex-direction: column;
         }
         a {
             font-size: 20px;
             text-decoration: none;
             color: blue;
         }
+        p {
+            font-size: 14px;
+            color: grey;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <a id="dynamicLink" href="#" target="_blank">View creative on Google site</a>
+    <p>Click on a different creative in the table below to change the link</p>
     <script>
         function getQueryParameter(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -29,15 +36,9 @@
         }
         
         const targetURL = getQueryParameter('url');
+        const creativeID = getQueryParameter('id');
         
-        // Extract the creative ID from the URL
-        function getCreativeID(url) {
-            const parts = url.split('/');
-            return parts[parts.length - 1];  // Get the last segment of the URL
-        }
-        
-        if (targetURL) {
-            const creativeID = getCreativeID(targetURL);
+        if (targetURL && creativeID) {
             document.getElementById('dynamicLink').href = targetURL;
             document.getElementById('dynamicLink').textContent = `View creative [${creativeID}] on Google site`;
         } else {
