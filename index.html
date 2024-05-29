@@ -29,10 +29,11 @@
         }
         
         const targetURL = getQueryParameter('url');
+        const creativeID = getQueryParameter('id');
+        
         if (targetURL) {
             document.getElementById('dynamicLink').href = targetURL;
-            document.getElementById('dynamicLink').textContent = "View creative on Google site";
-            window.open(targetURL, '_blank');
+            document.getElementById('dynamicLink').textContent = `View creative [${creativeID}] on Google site`;
         } else {
             document.body.innerHTML = '<p>URL parameter is missing</p>';
         }
