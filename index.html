@@ -12,19 +12,23 @@
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
+            flex-direction: column;
         }
         a {
             font-size: 20px;
             text-decoration: none;
             color: blue;
+            display: block;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 0;
         }
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <a id="dynamicLink" href="#" target="_blank style="display: block; margin-bottom: 10px;">View creative on Google site</a>
-        <p style="margin: 0;">Click on a different creative in the table below to change the link</p>
-    </div>
+    <a id="dynamicLink" href="#" target="_blank">View creative on Google site</a>
+    <p>Click on a different creative in the table below to change the link</p>
     <script>
         function getQueryParameter(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -33,10 +37,9 @@
         
         const targetURL = getQueryParameter('url');
         
-        // Extract the creative ID from the URL
         function getCreativeID(url) {
             const parts = url.split('/');
-            return parts[parts.length - 1];  // Get the last segment of the URL
+            return parts[parts.length - 1];
         }
         
         if (targetURL) {
