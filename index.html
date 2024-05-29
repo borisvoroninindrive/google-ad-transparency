@@ -29,9 +29,15 @@
         }
         
         const targetURL = getQueryParameter('url');
-        const creativeID = getQueryParameter('id') || 'Unknown ID';
+        
+        // Extract the creative ID from the URL
+        function getCreativeID(url) {
+            const parts = url.split('/');
+            return parts[parts.length - 1];  // Get the last segment of the URL
+        }
         
         if (targetURL) {
+            const creativeID = getCreativeID(targetURL);
             document.getElementById('dynamicLink').href = targetURL;
             document.getElementById('dynamicLink').textContent = `View creative [${creativeID}] on Google site`;
         } else {
