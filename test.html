@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic URL Link</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        a {
+            font-size: 20px;
+            text-decoration: none;
+            color: blue;
+            display: block;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        
+    <a id="dynamicLink" href="#" target="_blank">View creative on Google site</a>
+    <p>Click on a different creative in the table below to change the link</p>
+    <script>
+        function getQueryParameter(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        const targetURL = getQueryParameter('url');
+        
+        function getCreativeID(url) {
+            const parts = url.split('/');
+            return parts[parts.length - 1];
+        }
+        
+        if (targetURL) {
+            const creativeID = getCreativeID(targetURL);
+            document.getElementById('dynamicLink').href = targetURL;
+            document.getElementById('dynamicLink').textContent = `View creative [${creativeID}] on Google site`;
+        } else {
+            document.body.innerHTML = '<p>URL parameter is missing</p>';
+        }
+    </script>
+    </div>
+    <div>
+        <p>Test</p>
+    </div>
+</body>
+</html>
