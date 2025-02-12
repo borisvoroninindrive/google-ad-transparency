@@ -1,86 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of creatives</title>
+    <title>Список Креативов</title>
     <script>
         async function loadData() {
-            const response = await fetch('data/data.csv');
-            const text = await response.text();
-            
-            // Проверяем, не пустой ли файл
-            if (!text.trim()) {
-                console.error("CSV файл пуст");
-                return;
-            }
-            
-            // Парсим CSV с учетом кавычек
-            const rows = text.split('\n').map(row => {
-                return row.match(/(?:"([^"]+)")|([^,]+)/g)?.map(cell => cell.replace(/^"|"$/g, '')) || [];
-            }).filter(row => row.length > 1);
-            
-            if (rows.length < 2) {
-                console.error("CSV файл содержит только заголовки или пустые строки");
-                return;
-            }
-            
-            const table = document.getElementById('dataTable');
-            const headerRow = document.createElement('tr');
-            
-            const mainColumns = ['country', 'advertiser', 'type', 'url'];
-            const allColumns = rows[0];
-            const detailColumns = allColumns.filter(col => !mainColumns.includes(col));
-            
-            mainColumns.forEach(col => {
-                if (!allColumns.includes(col)) {
-                    console.warn(`Колонка ${col} отсутствует в файле`);
+            try {
+                const response = await fetch(`data/data.csv?nocache=${new Date().getTime()}`);
+                const text = await response.text();
+                
+                if (!text.trim()) {
+                    console.error("CSV файл пуст");
                     return;
                 }
-                const th = document.createElement('th');
-                th.textContent = col;
-                headerRow.appendChild(th);
-            });
-            table.appendChild(headerRow);
-            
-            rows.slice(1).forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.classList.add('clickable-row');
+                
+                const rows = text.split('\n').map(row => {
+                    return row.match(/(?:"([^"]+)")|([^,]+)/g)?.map(cell => cell.replace(/^"|"$/g, '')) || [];
+                }).filter(row => row.length > 1);
+                
+                if (rows.length < 2) {
+                    console.error("CSV содержит только заголовки или пустые строки");
+                    return;
+                }
+                
+                const table = document.getElementById('dataTable');
+                const headerRow = document.createElement('tr');
+                
+                const mainColumns = ['country', 'advertiser', 'type', 'url'];
+                const allColumns = rows[0];
+                const detailColumns = allColumns.filter(col => !mainColumns.includes(col));
                 
                 mainColumns.forEach(col => {
-                    const colIndex = allColumns.indexOf(col);
-                    if (colIndex === -1) return;
-                    const td = document.createElement('td');
-                    td.textContent = row[colIndex] || '';
-                    tr.appendChild(td);
+                    if (!allColumns.includes(col)) {
+                        console.warn(`Колонка ${col} отсутствует в файле`);
+                        return;
+                    }
+                    const th = document.createElement('th');
+                    th.textContent = col;
+                    headerRow.appendChild(th);
                 });
+                table.appendChild(headerRow);
                 
-                const detailsRow = document.createElement('tr');
-                detailsRow.classList.add('details-row');
-                detailsRow.style.display = 'none';
-                
-                const detailsCell = document.createElement('td');
-                detailsCell.setAttribute('colspan', mainColumns.length);
-                detailsCell.innerHTML = `<div class='details-content' id='details-${index}'></div>`;
-                detailsRow.appendChild(detailsCell);
-                
-                table.appendChild(tr);
-                table.appendChild(detailsRow);
-                
-                tr.addEventListener('click', () => toggleDetails(index, detailsRow, row, allColumns, detailColumns));
-            });
+                rows.slice(1).forEach((row, index) => {
+                    if (!row[allColumns.indexOf('country')]) return; // Пропускаем пустые строки
+                    
+                    const tr = document.createElement('tr');
+                    tr.classList.add('clickable-row');
+                    
+                    mainColumns.forEach(col => {
+                        const colIndex = allColumns.indexOf(col);
+                        if (colIndex === -1) return;
+                        const td = document.createElement('td');
+                        td.textContent = row[colIndex] || '';
+                        tr.appendChild(td);
+                    });
+                    
+                    const detailsRow = document.createElement('tr');
+                    detailsRow.classList.add('details-row');
+                    detailsRow.style.display = 'none';
+                    
+                    const detailsCell = document.createElement('td');
+                    detailsCell.setAttribute('colspan', mainColumns.length);
+                    detailsCell.innerHTML = `<div class='details-content' id='details-${index}'></div>`;
+                    detailsRow.appendChild(detailsCell);
+                    
+                    table.appendChild(tr);
+                    table.appendChild(detailsRow);
+                    
+                    tr.addEventListener('click', () => toggleDetails(index, detailsRow, row, allColumns, detailColumns));
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки CSV", error);
+            }
         }
 
-        function toggleDetails(index, row, rowData, allColumns, detailColumns) {
+        async function toggleDetails(index, row, rowData, allColumns, detailColumns) {
             if (row.style.display === 'none') {
                 row.style.display = 'table-row';
-                loadCreativeDetails(index, rowData, allColumns, detailColumns);
+                await loadCreativeDetails(index, rowData, allColumns, detailColumns);
             } else {
                 row.style.display = 'none';
             }
         }
 
-        function loadCreativeDetails(index, rowData, allColumns, detailColumns) {
+        async function loadCreativeDetails(index, rowData, allColumns, detailColumns) {
             const detailsContainer = document.getElementById(`details-${index}`);
             if (!detailsContainer) return;
 
@@ -94,10 +98,21 @@
             });
             detailsHtml += '</table>';
 
-            // Вставка HTML-кода, если есть
+            // Загружаем HTML-код
             const htmlIndex = allColumns.indexOf('html code');
             if (htmlIndex !== -1 && rowData[htmlIndex]) {
-                detailsHtml += `<h4>HTML-код:</h4><div class='html-content'>${rowData[htmlIndex]}</div>`;
+                const htmlFile = rowData[htmlIndex].trim();
+                try {
+                    const htmlResponse = await fetch(`html/${htmlFile}`);
+                    if (htmlResponse.ok) {
+                        const htmlContent = await htmlResponse.text();
+                        detailsHtml += `<h4>HTML-код:</h4><div class='html-content'>${htmlContent}</div>`;
+                    } else {
+                        detailsHtml += `<h4>HTML-код:</h4><div class='html-content'>Файл ${htmlFile} не найден</div>`;
+                    }
+                } catch (e) {
+                    detailsHtml += `<h4>HTML-код:</h4><div class='html-content'>Ошибка загрузки файла</div>`;
+                }
             }
             
             detailsContainer.innerHTML = detailsHtml;
