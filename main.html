@@ -6,7 +6,7 @@
     <title>Список Креативов</title>
     <script>
         async function loadData() {
-            const response = await fetch('Data/data.csv');
+            const response = await fetch('data/data.csv');
             const text = await response.text();
             
             // Парсим CSV с учетом кавычек
