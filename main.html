@@ -11,8 +11,8 @@
             
             // Парсим CSV с учетом кавычек
             const rows = text.split('\n').map(row => {
-                return row.match(/\"(.*?)\"|[^,]+/g).map(cell => cell.replace(/^\"|\"$/g, ''));
-            });
+                return row.match(/(?:"([^"]+)")|([^,]+)/g)?.map(cell => cell.replace(/^"|"$/g, '')) || [];
+            }).filter(row => row.length > 1);
             
             const table = document.getElementById('dataTable');
             const headerRow = document.createElement('tr');
@@ -28,17 +28,14 @@
             });
             table.appendChild(headerRow);
             
-            rows.slice(1).forEach(row => {
-                if (row.length < 2) return;
-                
+            rows.slice(1).forEach((row, index) => {
                 const tr = document.createElement('tr');
                 tr.classList.add('clickable-row');
-                const id = row[allColumns.indexOf('url')];
                 
                 mainColumns.forEach(col => {
                     const td = document.createElement('td');
-                    const index = allColumns.indexOf(col);
-                    td.textContent = row[index];
+                    const colIndex = allColumns.indexOf(col);
+                    td.textContent = row[colIndex];
                     tr.appendChild(td);
                 });
                 
@@ -48,35 +45,35 @@
                 
                 const detailsCell = document.createElement('td');
                 detailsCell.setAttribute('colspan', mainColumns.length);
-                detailsCell.innerHTML = `<div class='details-content' id='details-${id}'></div>`;
+                detailsCell.innerHTML = `<div class='details-content' id='details-${index}'></div>`;
                 detailsRow.appendChild(detailsCell);
                 
                 table.appendChild(tr);
                 table.appendChild(detailsRow);
                 
-                tr.addEventListener('click', () => toggleDetails(id, detailsRow, row, allColumns, detailColumns));
+                tr.addEventListener('click', () => toggleDetails(index, detailsRow, row, allColumns, detailColumns));
             });
         }
 
-        function toggleDetails(id, row, rowData, allColumns, detailColumns) {
+        function toggleDetails(index, row, rowData, allColumns, detailColumns) {
             if (row.style.display === 'none') {
                 row.style.display = 'table-row';
-                loadCreativeDetails(id, rowData, allColumns, detailColumns);
+                loadCreativeDetails(index, rowData, allColumns, detailColumns);
             } else {
                 row.style.display = 'none';
             }
         }
 
-        function loadCreativeDetails(id, rowData, allColumns, detailColumns) {
-            const detailsContainer = document.getElementById(`details-${id}`);
+        function loadCreativeDetails(index, rowData, allColumns, detailColumns) {
+            const detailsContainer = document.getElementById(`details-${index}`);
             if (!detailsContainer) return;
 
             let detailsHtml = '<h3>Детали Креатива</h3>';
             detailsHtml += '<table class="details-table">';
             
             detailColumns.forEach(col => {
-                const index = allColumns.indexOf(col);
-                detailsHtml += `<tr><th>${col}</th><td>${rowData[index]}</td></tr>`;
+                const colIndex = allColumns.indexOf(col);
+                detailsHtml += `<tr><th>${col}</th><td>${rowData[colIndex]}</td></tr>`;
             });
             detailsHtml += '</table>';
 
