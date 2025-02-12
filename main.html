@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Competitors creatives</title>
+    <title>Competitors Creatives</title>
     <script>
         async function loadData() {
             try {
@@ -29,65 +29,93 @@
                 const detailColumns = ['audio', 'audio_translated', 'text', 'text_translated'];
                 
                 const container = document.getElementById('container');
+                container.innerHTML = '';
                 
-                for (let index = 1; index < rows.length; index++) {
-                    const row = rows[index];
-                    if (!row[allColumns.indexOf('country')]) continue;
+                const table = document.createElement('table');
+                table.classList.add('main-table');
+                
+                const headerRow = document.createElement('tr');
+                mainColumns.forEach(col => {
+                    const th = document.createElement('th');
+                    th.textContent = col;
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+                
+                rows.slice(1).forEach((row, index) => {
+                    if (!row[allColumns.indexOf('country')]) return;
                     
-                    const detailsDiv = document.createElement('div');
-                    detailsDiv.classList.add('creative-block');
-                    detailsDiv.id = `details-${index}`;
+                    const tr = document.createElement('tr');
+                    tr.classList.add('clickable-row');
+                    tr.dataset.index = index;
                     
-                    let detailsHtml = '';
-                    const htmlIndex = allColumns.indexOf('html code');
-                    if (htmlIndex !== -1 && row[htmlIndex]) {
-                        const htmlFile = row[htmlIndex].trim();
-                        try {
-                            const htmlResponse = await fetch(`html/${htmlFile}`);
-                            if (htmlResponse.ok) {
-                                const htmlContent = await htmlResponse.text();
-                                detailsHtml += `<div class='html-content'>${htmlContent}</div>`;
-                            } else {
-                                console.warn(`HTML файл не найден: ${htmlFile}`);
-                                detailsHtml += `<div class='html-content'>Файл не найден</div>`;
-                            }
-                        } catch (e) {
-                            console.error("Ошибка загрузки HTML", e);
-                            detailsHtml += `<div class='html-content'>Ошибка загрузки файла</div>`;
-                        }
-                    }
-                    
-                    const quantityIndex = allColumns.indexOf('quantity');
-                    const variationIndex = allColumns.indexOf('variation');
-                    if (quantityIndex !== -1 && variationIndex !== -1) {
-                        const quantity = row[quantityIndex] || 'N/A';
-                        const variation = row[variationIndex] || 'N/A';
-                        detailsHtml += `<div class='variation'>#${variation} out of ${quantity}</div>`;
-                    }
-                    
-                    detailsHtml += '<table class="details-table">';
-                    detailColumns.forEach(col => {
-                        const colIndex = allColumns.indexOf(col);
-                        if (colIndex !== -1) {
-                            detailsHtml += `<tr><th>${col}</th><td>${row[colIndex] || ''}</td></tr>`;
-                        }
+                    mainColumns.forEach(col => {
+                        const td = document.createElement('td');
+                        td.textContent = row[allColumns.indexOf(col)] || '';
+                        tr.appendChild(td);
                     });
-                    detailsHtml += '</table>';
-                    detailsDiv.innerHTML = detailsHtml;
                     
-                    container.appendChild(detailsDiv);
-                }
+                    tr.addEventListener('click', () => toggleDetails(index, row, allColumns, detailColumns));
+                    table.appendChild(tr);
+                });
+                
+                container.appendChild(table);
             } catch (error) {
                 console.error("Ошибка загрузки CSV", error);
             }
         }
+        
+        function toggleDetails(index, rowData, allColumns, detailColumns) {
+            const existingDetails = document.getElementById(`details-${index}`);
+            if (existingDetails) {
+                existingDetails.remove();
+                return;
+            }
+            
+            const detailsDiv = document.createElement('div');
+            detailsDiv.classList.add('creative-block');
+            detailsDiv.id = `details-${index}`;
+            
+            let detailsHtml = '';
+            const htmlIndex = allColumns.indexOf('html code');
+            if (htmlIndex !== -1 && rowData[htmlIndex]) {
+                const htmlFile = rowData[htmlIndex].trim();
+                fetch(`html/${htmlFile}`).then(res => res.ok ? res.text() : "Файл не найден").then(htmlContent => {
+                    detailsDiv.innerHTML = `<div class='html-content'>${htmlContent}</div>`;
+                });
+            }
+            
+            const quantityIndex = allColumns.indexOf('quantity');
+            const variationIndex = allColumns.indexOf('variation');
+            if (quantityIndex !== -1 && variationIndex !== -1) {
+                const quantity = rowData[quantityIndex] || 'N/A';
+                const variation = rowData[variationIndex] || 'N/A';
+                detailsHtml += `<div class='variation'>#${variation} out of ${quantity}</div>`;
+            }
+            
+            detailsHtml += '<table class="details-table">';
+            detailColumns.forEach(col => {
+                const colIndex = allColumns.indexOf(col);
+                if (colIndex !== -1) {
+                    detailsHtml += `<tr><th>${col}</th><td>${rowData[colIndex] || ''}</td></tr>`;
+                }
+            });
+            detailsHtml += '</table>';
+            detailsDiv.innerHTML += detailsHtml;
+            
+            document.querySelector(`[data-index='${index}']`).after(detailsDiv);
+        }
+        
         window.onload = loadData;
     </script>
     <style>
         html, body {margin: 0; padding: 0; width: 100%; background: #f5f5f5;}
         @media (max-width: 500px) {html, body {height: 100%;}}
         body {display: flex; flex-direction: column; font-family: 'Google Sans', 'Roboto', sans-serif; font-size: 14px; line-height: 20px; min-width: 360px; overflow-x: hidden; align-items: center; padding: 10px;}
-        .creative-block {width: 100%; max-width: 600px; margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
+        .main-table {width: 100%; max-width: 800px; border-collapse: collapse; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
+        .main-table th, .main-table td {padding: 8px; border: 1px solid gray; text-align: left;}
+        .clickable-row:hover {background-color: #f0f0f0; cursor: pointer;}
+        .creative-block {width: 100%; max-width: 800px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
         .details-table {width: 100%; border-collapse: collapse; margin-top: 10px;}
         .details-table th, .details-table td {padding: 6px; border: 1px solid gray; text-align: left; background: #fff;}
         .html-content {background: #eee; padding: 10px; margin-bottom: 10px; border-radius: 4px;}
