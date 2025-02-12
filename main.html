@@ -30,19 +30,31 @@
                 
                 const container = document.getElementById('container');
                 
-                rows.slice(1).forEach((row, index) => {
-                    if (!row[allColumns.indexOf('country')]) return;
+                for (let index = 1; index < rows.length; index++) {
+                    const row = rows[index];
+                    if (!row[allColumns.indexOf('country')]) continue;
                     
                     const detailsDiv = document.createElement('div');
                     detailsDiv.classList.add('creative-block');
                     detailsDiv.id = `details-${index}`;
                     
+                    let detailsHtml = '';
                     const htmlIndex = allColumns.indexOf('html code');
                     if (htmlIndex !== -1 && row[htmlIndex]) {
                         const htmlFile = row[htmlIndex].trim();
-                        fetch(`html/${htmlFile}`).then(response => response.ok ? response.text() : "Файл не найден").then(htmlContent => {
-                            detailsDiv.innerHTML = `<div class='html-content'>${htmlContent}</div>`;
-                        });
+                        try {
+                            const htmlResponse = await fetch(`html/${htmlFile}`);
+                            if (htmlResponse.ok) {
+                                const htmlContent = await htmlResponse.text();
+                                detailsHtml += `<div class='html-content'>${htmlContent}</div>`;
+                            } else {
+                                console.warn(`HTML файл не найден: ${htmlFile}`);
+                                detailsHtml += `<div class='html-content'>Файл не найден</div>`;
+                            }
+                        } catch (e) {
+                            console.error("Ошибка загрузки HTML", e);
+                            detailsHtml += `<div class='html-content'>Ошибка загрузки файла</div>`;
+                        }
                     }
                     
                     const quantityIndex = allColumns.indexOf('quantity');
@@ -50,10 +62,10 @@
                     if (quantityIndex !== -1 && variationIndex !== -1) {
                         const quantity = row[quantityIndex] || 'N/A';
                         const variation = row[variationIndex] || 'N/A';
-                        detailsDiv.innerHTML += `<div class='variation'>#${variation} out of ${quantity}</div>`;
+                        detailsHtml += `<div class='variation'>#${variation} out of ${quantity}</div>`;
                     }
                     
-                    let detailsHtml = '<table class="details-table">';
+                    detailsHtml += '<table class="details-table">';
                     detailColumns.forEach(col => {
                         const colIndex = allColumns.indexOf(col);
                         if (colIndex !== -1) {
@@ -61,10 +73,10 @@
                         }
                     });
                     detailsHtml += '</table>';
-                    detailsDiv.innerHTML += detailsHtml;
+                    detailsDiv.innerHTML = detailsHtml;
                     
                     container.appendChild(detailsDiv);
-                });
+                }
             } catch (error) {
                 console.error("Ошибка загрузки CSV", error);
             }
