@@ -15,8 +15,10 @@
                     return;
                 }
                 
+                // Улучшенный парсер CSV
                 const rows = text.split('\n').map(row => {
-                    return row.match(/(?:"([^"]+)")|([^,]+)/g)?.map(cell => cell.replace(/^"|"$/g, '')) || [];
+                    const parsed = row.match(/(?:"([^"]*)")|([^,]+)/g);
+                    return parsed ? parsed.map(cell => cell.replace(/^"|"$/g, '').trim()) : [];
                 }).filter(row => row.length > 1);
                 
                 if (rows.length < 2) {
