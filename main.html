@@ -75,7 +75,12 @@
                     
                     mainColumns.forEach(col => {
                         const td = document.createElement('td');
-                        td.textContent = row[allColumns.indexOf(col)] || '';
+                        if (col === 'url') {
+                            const url = row[allColumns.indexOf(col)] || '';
+                            td.innerHTML = `<a href="${url}" target="_blank">See on Google Ads Transparency</a>`;
+                        } else {
+                            td.textContent = row[allColumns.indexOf(col)] || '';
+                        }
                         tr.appendChild(td);
                     });
                     
@@ -134,16 +139,13 @@
     </script>
     <style>
         html, body {margin: 0; padding: 0; width: 100%; background: #f5f5f5;}
-        @media (max-width: 500px) {html, body {height: 100%;}}
         body {display: flex; flex-direction: column; font-family: 'Google Sans', 'Roboto', sans-serif; font-size: 14px; line-height: 20px; min-width: 360px; overflow-x: hidden; align-items: center; padding: 10px;}
-        .main-table {width: 100%; max-width: 800px; border-collapse: collapse; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
-        .main-table th, .main-table td {padding: 8px; border: 1px solid gray; text-align: left;}
+        .main-table {width: 90%; max-width: 1200px; border-collapse: collapse; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
+        .main-table th, .main-table td {padding: 8px; border: 1px solid gray; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;}
         .clickable-row:hover {background-color: #f0f0f0; cursor: pointer;}
-        .creative-block {width: 100%; max-width: 800px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);}
+        .creative-block {width: 100%; max-width: 800px; margin-top: 10px; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); position: relative; z-index: 10;}
         .details-table {width: 100%; border-collapse: collapse; margin-top: 10px;}
-        .details-table th, .details-table td {padding: 6px; border: 1px solid gray; text-align: left; background: #fff;}
-        .html-content {background: #eee; padding: 10px; margin-bottom: 10px; border-radius: 4px;}
-        .variation {font-weight: bold; margin-bottom: 10px; text-align: center; font-size: 16px; color: #333;}
+        .html-content {background: #eee; padding: 10px; margin-bottom: 10px; border-radius: 4px; max-height: 400px; overflow-y: auto;}
     </style>
 </head>
 <body>
