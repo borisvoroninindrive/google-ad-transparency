@@ -6,105 +6,83 @@
     <title>Список Креативов</title>
     <script>
         async function loadData() {
-            const response = await fetch('data/data.csv');
+            const response = await fetch('Data/data.csv');
             const text = await response.text();
             const rows = text.split('\n').map(row => row.split(','));
 
             const table = document.getElementById('dataTable');
             const headerRow = document.createElement('tr');
-
-            rows[0].forEach(col => {
+            
+            const mainColumns = ['country', 'advertiser', 'type', 'url'];
+            const allColumns = rows[0];
+            const detailColumns = allColumns.filter(col => !mainColumns.includes(col));
+            
+            mainColumns.forEach(col => {
                 const th = document.createElement('th');
                 th.textContent = col;
                 headerRow.appendChild(th);
             });
-
             table.appendChild(headerRow);
-
+            
             rows.slice(1).forEach(row => {
-                if (row.length < 2) return; // Пропускаем пустые строки
-
+                if (row.length < 2) return;
+                
                 const tr = document.createElement('tr');
                 tr.classList.add('clickable-row');
-                row.forEach((cell, index) => {
+                const id = row[allColumns.indexOf('url')];
+                
+                mainColumns.forEach(col => {
                     const td = document.createElement('td');
-                    td.textContent = cell;
+                    const index = allColumns.indexOf(col);
+                    td.textContent = row[index];
                     tr.appendChild(td);
                 });
-
+                
                 const detailsRow = document.createElement('tr');
                 detailsRow.classList.add('details-row');
                 detailsRow.style.display = 'none';
-
+                
                 const detailsCell = document.createElement('td');
-                detailsCell.setAttribute('colspan', rows[0].length);
-                detailsCell.innerHTML = `<div class="details-content" id="details-${row[0]}"></div>`;
+                detailsCell.setAttribute('colspan', mainColumns.length);
+                detailsCell.innerHTML = `<div class='details-content' id='details-${id}'></div>`;
                 detailsRow.appendChild(detailsCell);
-
+                
                 table.appendChild(tr);
                 table.appendChild(detailsRow);
-
-                tr.addEventListener('click', () => toggleDetails(row[0], detailsRow));
+                
+                tr.addEventListener('click', () => toggleDetails(id, detailsRow, row, allColumns, detailColumns));
             });
         }
 
-        async function toggleDetails(id, row) {
+        function toggleDetails(id, row, rowData, allColumns, detailColumns) {
             if (row.style.display === 'none') {
                 row.style.display = 'table-row';
-                await loadCreativeDetails(id);
+                loadCreativeDetails(id, rowData, allColumns, detailColumns);
             } else {
                 row.style.display = 'none';
             }
         }
 
-        async function loadCreativeDetails(id) {
+        function loadCreativeDetails(id, rowData, allColumns, detailColumns) {
             const detailsContainer = document.getElementById(`details-${id}`);
             if (!detailsContainer) return;
 
-            // Загружаем данные
-            const response = await fetch('Data/data.tsv');
-            const text = await response.text();
-            const rows = text.split('\n').map(row => row.split('\t'));
-            const header = rows[0];
-            const dataRow = rows.find(row => row[0] === id);
+            let detailsHtml = '<h3>Детали Креатива</h3>';
+            detailsHtml += '<table class="details-table">';
+            
+            detailColumns.forEach(col => {
+                const index = allColumns.indexOf(col);
+                detailsHtml += `<tr><th>${col}</th><td>${rowData[index]}</td></tr>`;
+            });
+            detailsHtml += '</table>';
 
-            if (!dataRow) {
-                detailsContainer.innerHTML = `<p>Ошибка: данные не найдены.</p>`;
-                return;
+            // Вставка HTML-кода, если есть
+            const htmlIndex = allColumns.indexOf('html code');
+            if (htmlIndex !== -1 && rowData[htmlIndex]) {
+                detailsHtml += `<h4>HTML-код:</h4><div class='html-content'>${rowData[htmlIndex]}</div>`;
             }
-
-            let detailsHtml = `<h3>Креатив ${id}</h3>`;
-
-            // Выводим ключевые поля
-            detailsHtml += `<table class="details-table">`;
-            header.forEach((col, index) => {
-                detailsHtml += `<tr><th>${col}</th><td>${dataRow[index]}</td></tr>`;
-            });
-            detailsHtml += `</table>`;
-
-            // Загружаем HTML-код (если файл существует)
-            try {
-                const htmlResponse = await fetch(`html/${id}.txt`);
-                if (htmlResponse.ok) {
-                    const htmlText = await htmlResponse.text();
-                    detailsHtml += `<h4>HTML-код:</h4><div class="html-content">${htmlText}</div>`;
-                }
-            } catch {}
-
-            // Проверяем и загружаем видео (если есть)
-            const videoPath = `videos/${id}.mp4`;
-            fetch(videoPath).then(res => {
-                if (res.ok) {
-                    detailsHtml += `
-                        <h4>Видео:</h4>
-                        <video controls>
-                            <source src="${videoPath}" type="video/mp4">
-                            Ваш браузер не поддерживает видео.
-                        </video>
-                    `;
-                }
-                detailsContainer.innerHTML = detailsHtml;
-            });
+            
+            detailsContainer.innerHTML = detailsHtml;
         }
 
         window.onload = loadData;
