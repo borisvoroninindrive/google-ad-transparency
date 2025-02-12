@@ -15,11 +15,33 @@
                     return;
                 }
                 
-                // Улучшенный парсер CSV
-                const rows = text.split('\n').map(row => {
-                    const parsed = row.match(/(?:"([^"]*)")|([^,]+)/g);
-                    return parsed ? parsed.map(cell => cell.replace(/^"|"$/g, '').trim()) : [];
-                }).filter(row => row.length > 1);
+                // Парсим CSV, учитывая кавычки и переносы строк внутри значений
+                const rows = [];
+                let insideQuotes = false;
+                let currentRow = [];
+                let currentCell = '';
+                
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    const nextChar = text[i + 1];
+                    
+                    if (char === '"') {
+                        insideQuotes = !insideQuotes;
+                    } else if (char === ',' && !insideQuotes) {
+                        currentRow.push(currentCell.trim());
+                        currentCell = '';
+                    } else if (char === '\n' && !insideQuotes) {
+                        currentRow.push(currentCell.trim());
+                        rows.push(currentRow);
+                        currentRow = [];
+                        currentCell = '';
+                    } else {
+                        currentCell += char;
+                    }
+                }
+                
+                if (currentCell) currentRow.push(currentCell.trim());
+                if (currentRow.length > 0) rows.push(currentRow);
                 
                 if (rows.length < 2) {
                     console.error("CSV содержит только заголовки или пустые строки");
