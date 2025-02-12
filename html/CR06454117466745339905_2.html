@@ -1,0 +1,89 @@
+<html><head>
+    <link rel="stylesheet" href="./uac_youtube_video.css">
+    <link rel="stylesheet" href="./uac_youtube_video_v2.css">
+    <title>YouTube instream UAC ad</title>
+    
+    
+
+    <!--
+      Styles & JavaScript for the ad. Note that all assets must be referenced relative to this
+      HTML document.
+    -->
+  </head>
+  <body>
+    <div class="youtube">
+      <div class="video-player">
+        <div id="video"><iframe src="https://www.youtube.com/embed/12cS6-pARj8?rel=0&amp;version=3&amp;controls=0&amp;autoplay=0&amp;mute=0" width="320" height="180" id="video-ad" frameborder="0"></iframe></div>
+        <div class="visit-advertiser-text">Visit advertiser</div>
+        <div class="video-action-button skip-ad-button skip-ad-button-google" id="skip-ad-button" style="display: inline-block">
+          <span class="video-action-text">Skip</span>
+          <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-3 1 24 24" preserveAspectRatio="xMidYMid meet" height="16" width="16" fill="#FFFFFF" style="display: inline-block">
+            <path d="M5,18l10-6L5,6V18L5,18z M19,6h-2v12h2V6z"></path>
+          </svg>
+        </div>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="watch-next">
+        <!-- Only one of these visible at a time. -->
+        <div id="collapsed" class="hidden">
+          <section class="companion toggler divider divider-google">
+            <img class="app-icon-companion" id="app-icon-companion" alt="app icon" src="//lh3.googleusercontent.com/wFx7UfiIYlhJnpPrlQGCyGD1jTPyqmTq5SanxljJT-fkZ3YHjki6U0OemUKCf78agj52VwGkmJA">
+            <div id="app-info-companion">
+              <div id="app-name-companion">DiDi Rider: Affordable rides</div>
+              <div id="app-data-companion">
+                <div class="stark-ad-badge"><strong>Sponsored</strong> ·</div>
+                <div id="app-rating-companion" style="display: none;"></div>
+                <div id="app-price">[Price]</div>
+              </div>
+            </div>
+            <div class="chevron">⌄</div>
+            <div class="install-button open-appstore">Install</div>
+          </section>
+
+          <section class="immersive"></section>
+        </div>
+
+        <div id="expanded">
+          <section class="companion">
+            <div class="stark-ad-badge" id="header-stark-ad-badge"><strong>Sponsored</strong></div>
+            <div id="immersive-header">
+              <button class="kebab-button">⋮</button>
+              <div class="toggler" id="close-expansion">×</div>
+            </div>
+          </section>
+
+          <section class="immersive">
+            <div id="about-immersive">
+              <img class="app-icon-immersive" id="app-icon-immersive" alt="app icon" src="//lh3.googleusercontent.com/wFx7UfiIYlhJnpPrlQGCyGD1jTPyqmTq5SanxljJT-fkZ3YHjki6U0OemUKCf78agj52VwGkmJA">
+              <div id="creator-info">
+                <div id="app-name-container">
+                  <div id="app-name-immersive">DiDi Rider: Affordable rides</div>
+                  <div id="app-company-immersive">DiDi Global</div>
+                  <div id="app-logo-and-price-immersive">
+                    <div id="appstore-container"><img src="https://googleads.g.doubleclick.net/pagead/images/gmob/google_play_icon_grey_2022.svg" id="appstore"></div>
+                    <div id="immersive-price-tag"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="immersive-action-buttons">
+              <div class="install-button" id="learnmore-button">Learn More</div>
+              <div class="install-button" id="install-button-immersive">Install</div>
+            </div>
+            <div class="divider double divider-google" id="app-stats-immersive">
+            <div><div class="data-label">[Number of downloads]+</div><div class="data-value">Downloads</div></div><div><div class="data-label">Maps_and_navigation</div><div class="data-value">Category</div></div></div>
+            <div id="showcase">
+               <!-- Only one of these options will be visible in this precedence-->
+               <div class="" id="cover-image"><img src="//lh3.googleusercontent.com/Y7nRWImUMVHh7XY0bsVmN602B2kE0KkQ0dJveP56yOPWuYx4DSS6zut65lhP9GNN39T5LbOOUA" class="landscape"></div>
+               <div class="hidden" id="portrait-images"></div>
+               <div class="hidden" id="landscape-image"></div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  
+
+</body></html>

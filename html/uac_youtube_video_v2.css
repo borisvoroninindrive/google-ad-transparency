@@ -1,0 +1,119 @@
+#expanded .companion {
+  display: flex;
+  justify-content: flex-end;
+  height: inherit !important;
+}
+
+.kebab-button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  margin: 0.2em 1em 0.2em 0.2em;
+  font-weight: bold;
+  color: #828282
+}
+
+#close-expansion {
+  margin: inherit !important;
+}
+
+#app-logo-and-price-immersive {
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+}
+
+#app-logo-and-price-immersive #appstore {
+  margin: inherit !important;
+  width: 100%;
+}
+
+#appstore-container {
+  width: 35%;
+  margin-right: 10px;
+}
+
+#appstore {
+  display: inherit !important;
+}
+
+#about-immersive {
+  height: auto !important;
+}
+
+.visit-advertiser-text {
+  position: absolute;
+  color: white;
+
+  /* Align to top right of video player */
+  top: 5%;
+  left: 65%;
+  width: 100%;
+}
+
+.video-action-button {
+  position: absolute;
+  right: 8px;
+  background: rgba(0,0,0,.6);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 1);
+  font-family: "Roboto",Arial,sans-serif;
+  text-align: center;
+  cursor: pointer;
+  display:none;
+  bottom: 50px;
+  display: block;
+  opacity: 1;
+  padding: 0;
+}
+
+.skip-ad-button {
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+.info-icon {
+  vertical-align: middle;
+}
+
+.video-action-text {
+  display: inline-block;
+  line-height: 32px;
+}
+
+#expanded .companion {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stark-ad-badge {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+#header-stark-ad-badge {
+  display: flex;
+  align-items: center;
+}
+
+#immersive-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#learnmore-button {
+  font-size: 0.8em;
+  font-weight: 500;
+  border: none;
+  margin-right: 0;
+  color: #000;
+  background-color: #eee;
+  border-radius: 25px;
+  padding: 10px 10px;
+}
+
+#install-button-immersive {
+  font-weight: 500;
+  border-radius: 25px;
+  padding: 10px 10px;
+}

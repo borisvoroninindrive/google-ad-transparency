@@ -1,0 +1,58 @@
+<html><head>
+  <title>YouTube Video</title>
+
+  <!-- Passes ad data to ad -->
+  
+
+  <!-- Uses ad data to populate HTML template -->
+  
+
+  <link rel="stylesheet" href="styles/youtube_player_media.css">
+  <link rel="stylesheet" href="styles/youtube_player_media_mobile.css">
+</head>
+
+<body>
+  <div id="youtube-mobile">
+    <!-- Video -->
+    <div id="video-player" class="mobile-video-player" style="width: 400px; height: 225px;">
+      <div id="video"></div>
+      <div class="visit-advertiser-text">Visit advertiser</div>
+      <div class="ad-time-remaining">
+        <span id="video-duration">Sponsored </span>
+        <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" height="12" width="12" fill="#FFFFFF">
+          <path d="M11 17h2v-6h-2Zm1-8q.425 0 .713-.288Q13 8.425 13 8t-.287-.713Q12.425 7 12 7t-.712.287Q11 7.575 11 8t.288.712Q11.575 9 12 9Zm0 13q-2.075 0-3.9-.788-1.825-.787-3.175-2.137-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175 1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138 1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175-1.35 1.35-3.175 2.137Q14.075 22 12 22Zm0-2q3.35 0 5.675-2.325Q20 15.35 20 12q0-3.35-2.325-5.675Q15.35 4 12 4 8.65 4 6.325 6.325 4 8.65 4 12q0 3.35 2.325 5.675Q8.65 20 12 20Zm0-8Z"></path>
+        </svg>
+      </div>
+      <div class="video-action-button" id="video-action-button">
+        <span class="video-action-text"></span>
+        <svg id="skip-ad-icon" class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-3 1 24 24" preserveAspectRatio="xMidYMid meet" height="16" width="16" fill="#FFFFFF">
+          <path d="M5,18l10-6L5,6V18L5,18z M19,6h-2v12h2V6z"></path></svg>
+      </div>
+      <div class="progress-bar" id="progress-bar"> </div>
+    </div>
+
+    <!-- Extensions (if any) -->
+    <div class="extension" id="extension">
+      <div class="extension-left">
+        <img class="mobile-advertiser-logo" alt="advertiser logo" src="https://yt3.ggpht.com/_ycui_1Vh6IgMNmS4xalN2fX2oYWDF1S1xUpZ-Vl0wZFVaS1iMWzUAMDrjsyFmQGXR9RBQ9T0g=s88-c-k-c0x00ffffff-no-rj">
+        <div id="mobile-advertiser-info">
+          <div id="mobile-headline" class="headline"></div>
+          <div>
+            <div id="mobile-ad-badge">
+              <strong>Sponsored</strong> · 
+            </div>
+            <div class="mobile-advertiser-link muted-text">yango.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="extension-right">
+        <button class="kebab-button">⋮</button>
+        <div id="mobile-action-button-container">
+          <button id="mobile-action-button">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body></html>

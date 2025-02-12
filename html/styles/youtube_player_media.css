@@ -1,0 +1,238 @@
+/* Shared styling for instream youtube ads of PLAYER_MEDIA layout */
+body {
+  font-family: Roboto,Arial,Helvetica,sans-serif;
+}
+
+/* Yellow portion of progress bar (progress so far) */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: hsl(46.8, 79.3%, 52.7%);
+}
+
+.visit-advertiser-text {
+  position: absolute;
+  color: white;
+
+  /* Align to top right of video player */
+  top: 5%;
+  left: 70%;
+  width: 100%;
+}
+
+.ad-time-remaining {
+  position: absolute;
+  color: white;
+  font-size: .75em;
+  line-height: 28px;
+  text-align: left;
+  text-shadow: 0 0 4px rgb(0 0 0 / 75%);
+  left: 10px;
+  cursor: default;
+  bottom: 0;
+  max-width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+
+.video-action-button {
+  position: absolute;
+  right: 8px;
+  background: rgba(0,0,0,.6);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 1);
+  font-family: "Roboto",Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  height: 32px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+  padding: 0 12px;
+  bottom: 50px;
+  border-radius: 4px;
+}
+
+.skip-button {
+  border-radius: 16px;
+  font-weight: 500;
+  padding: 0 8px 0 12px;
+}
+
+.non-skip-button {
+  padding: 0 8pxx;
+}
+
+.video-action-text {
+  display: inline-block;
+  line-height: 32px;
+}
+
+.muted-text {
+  font-size: 0.8em;
+  color: #828282;
+}
+
+.headline {
+  overflow: hidden;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.info-icon {
+  vertical-align: middle;
+}
+
+.description {
+  text-align: left;
+  color: #606060;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.extension {
+  display: flex;
+  background-color: #f9f9f9;
+  justify-content: space-between;
+  border-bottom: #dfdfdf 1px solid;
+  padding: 10px;
+}
+
+.extension-left {
+  display: flex;
+  /* This hides the app name if it's too long. */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.extension-right {
+  display: flex;
+}
+
+.kebab-button {
+  background: none;
+  border:none;
+  font-size: 22px;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  font-weight: bold;
+  color: #828282
+}
+
+.static-android-youtube-video-menu {
+  padding-top: 10px;
+  max-width: 400px;
+}
+
+.vertical-flexbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.engagement-panel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.horizontal-flexbox {
+  display: flex;
+}
+
+.hotel-rental-instream-item {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #00000010;
+  border-radius: 12px;
+  width: 160px;
+}
+
+
+.hotel-rental-product-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 12px 12px 0 0;
+}
+
+.hotel-rental-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 160px;
+  height: 82px;
+}
+
+.hotel-rental-text-headline {
+  margin: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  display: -webkit-box;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.hotel-rental-text-description {
+  margin: 0;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
+
+.hotel-rental-product-feed {
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 4px;
+}
+
+.product-feed {
+  display: flex;
+  justify-content: center;
+
+  background-color: white;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.product-col {
+  flex: 50%;
+  text-align: center;
+}
+
+.product {
+  border-radius: 25px;
+  margin: 6px;
+
+  border: 1px solid rgba(204, 204, 204, 0.4);
+  padding: 4px;
+}
+
+.shopping-advertiser {
+  color: #000;
+  text-transform: none;
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+
+.product-image {
+  position: relative;
+}
+
+.energy-efficiency-label {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 30px;
+  padding: 15px; /* To align within the rounded product image */
+}

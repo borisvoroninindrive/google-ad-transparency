@@ -1,0 +1,137 @@
+#youtube-mobile {
+  width: 400px;
+  height: 802px;
+  overflow: hidden;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.mobile-video-player {
+  position: relative;
+  background-color: #000;
+}
+
+.mobile-advertiser-logo {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 25px;
+}
+
+.mobile-advertiser-logo-engagement {
+  width: auto;
+  height: auto;
+  margin-right: 0;
+}
+
+.mobile-advertiser-logo-shopping {
+  margin: 10px;
+  border-radius: 100px;
+}
+
+#mobile-headline {
+  margin-bottom: 2px;
+}
+
+#mobile-ad-badge {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+.mobile-advertiser-link {
+  width: calc(80%);
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: clip;
+}
+
+.mobile-advertiser-link-engagement {
+  width: auto;
+}
+
+#mobile-action-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#mobile-action-button {
+  background-color: #2462cd;
+  color: white;
+  font-family: Roboto;
+  height: 3em;
+  border: none;
+  border-radius: 25px;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#skip-ad-icon {
+  display: none;
+}
+
+#mobile-engagement-panel {
+  height: calc(100% - 225px);
+}
+
+#mobile-engagement-panel-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+#menu-bar {
+  width: 330px;
+  height: 20px;
+}
+
+#dots {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#mobile-engagement-panel-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 300px;
+}
+
+#mobile-engagement-headline {
+  font-weight: 800;
+  font-size: xx-large;
+}
+
+.mobile-engagement-link-text {
+  color: #2462cd;
+  text-transform: uppercase;
+}
+
+#mobile-product-feed {
+  width: 400px;
+  height: 400px;
+  overflow: scroll;
+}
+
+.mobile-product {
+  max-width: 175px;
+  height: auto;
+}
+
+#mobile-advertiser-info-shopping {
+  align-items: center;
+}
+
+#top-products-text {
+  font-size: 1em;
+  margin: 10px;
+}
